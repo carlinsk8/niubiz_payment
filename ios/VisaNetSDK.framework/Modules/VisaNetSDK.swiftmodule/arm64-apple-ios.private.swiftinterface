@@ -1,0 +1,467 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name VisaNetSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CardinalMobile
+import Foundation
+import Swift
+import TMXProfiling
+import UIKit
+@_exported import VisaNetSDK
+import _Concurrency
+import _StringProcessing
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class Merchant : ObjectiveC.NSObject {
+  @objc deinit
+}
+extension UIKit.UIView {
+  public enum ViewSide {
+    case top
+    case right
+    case bottom
+    case left
+    public static func == (a: UIKit.UIView.ViewSide, b: UIKit.UIView.ViewSide) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) public func createBorder(side: UIKit.UIView.ViewSide, thickness: CoreFoundation.CGFloat, color: UIKit.UIColor, leftOffset: CoreFoundation.CGFloat = 0, rightOffset: CoreFoundation.CGFloat = 0, topOffset: CoreFoundation.CGFloat = 0, bottomOffset: CoreFoundation.CGFloat = 0) -> QuartzCore.CALayer
+  @_Concurrency.MainActor(unsafe) public func createViewBackedBorder(side: UIKit.UIView.ViewSide, thickness: CoreFoundation.CGFloat, color: UIKit.UIColor, leftOffset: CoreFoundation.CGFloat = 0, rightOffset: CoreFoundation.CGFloat = 0, topOffset: CoreFoundation.CGFloat = 0, bottomOffset: CoreFoundation.CGFloat = 0) -> UIKit.UIView
+  @_Concurrency.MainActor(unsafe) public func addBorder(side: UIKit.UIView.ViewSide, thickness: CoreFoundation.CGFloat, color: UIKit.UIColor, leftOffset: CoreFoundation.CGFloat = 0, rightOffset: CoreFoundation.CGFloat = 0, topOffset: CoreFoundation.CGFloat = 0, bottomOffset: CoreFoundation.CGFloat = 0)
+  @_Concurrency.MainActor(unsafe) public func addViewBackedBorder(side: UIKit.UIView.ViewSide, thickness: CoreFoundation.CGFloat, color: UIKit.UIColor, leftOffset: CoreFoundation.CGFloat = 0, rightOffset: CoreFoundation.CGFloat = 0, topOffset: CoreFoundation.CGFloat = 0, bottomOffset: CoreFoundation.CGFloat = 0)
+}
+@objc public enum ServerEnvironment : Swift.Int {
+  case dev
+  case prod
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum CEHeaderType : Swift.Int {
+  case logo, text
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ExpirationDateType : Swift.Int {
+  case textField, dropDown
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum DataChannelType : Swift.String {
+  case web
+  case recurrent
+  case mobile
+  case callCenter
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum DocumentType : Swift.Int {
+  case dni = 0
+  case ce = 1
+  case passport = 2
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public var visaNetbundle: Foundation.Bundle
+public func getLocaleString(key: Swift.String) -> Swift.String
+@objc @_inheritsConvenienceInitializers public class Config : ObjectiveC.NSObject {
+  public static let printServerLogs: Swift.Bool
+  public static var merchantID: Swift.String
+  public static var merchantNameTitle: Swift.String?
+  public static var authorizationHeaderValue: Swift.String
+  public static var amount: Swift.Double
+  public static var amountValidate: Swift.Double {
+    get
+    set
+  }
+  public static var securityToken: Swift.String {
+    get
+    set
+  }
+  public static var tokenizationEmail: Swift.String
+  public class func setLocaleValues()
+  @_inheritsConvenienceInitializers @objc(ConfigCE) public class TK : ObjectiveC.NSObject {
+    public static var dataChannel: VisaNetSDK.DataChannelType
+    public static var uuid: Swift.String?
+    public static var chargeAmount: Swift.Double?
+    public static var maxAmount: Swift.Double?
+    public static var initialAmount: Swift.Double?
+    public static var currency: Swift.String
+    public static var type: VisaNetSDK.ServerEnvironment
+    public static var endPointDevURL: Swift.String
+    public static var endPointProdURL: Swift.String
+    public static var textFieldFont: UIKit.UIFont?
+    public static var formBackground: UIKit.UIColor
+    public static var firstName: Swift.String
+    public static var lastName: Swift.String
+    public static var email: Swift.String
+    public static var purchaseNumber: Swift.String?
+    public static var beneficiaryID: Swift.String?
+    public static var beneficiaryFirstName: Swift.String?
+    public static var beneficiaryLastName: Swift.String?
+    @objc @_inheritsConvenienceInitializers public class Antifraud : ObjectiveC.NSObject {
+      public static var clientIp: Swift.String
+      public static var merchantDefineData: [Swift.String : Any]
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_Header) public class Header : ObjectiveC.NSObject {
+      public static var type: VisaNetSDK.CEHeaderType
+      public static var logoImage: UIKit.UIImage?
+      public static var generalFont: UIKit.UIFont?
+      public static var titleText: Swift.String?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_CardNumberField) public class CardNumberField : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var placeHolderText: Swift.String
+      public static var defaultText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      public static var cameraEnable: Swift.Bool
+      public static var font: UIKit.UIFont?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_ExpirationDateField) public class ExpirationDateField : ObjectiveC.NSObject {
+      public static var type: VisaNetSDK.ExpirationDateType
+      public static var titleText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      public static var defaultText: Swift.String
+      public static var placeholder: Swift.String
+      @_inheritsConvenienceInitializers @objc(ConfigCE_ExpirationMonthDropDownField) public class MonthDropDownField : ObjectiveC.NSObject {
+        public static var placeHolderText: Swift.String
+        public static var defaultText: Swift.String
+        @objc override dynamic public init()
+        @objc deinit
+      }
+      @_inheritsConvenienceInitializers @objc(ConfigCE_ExpirationYearDropDownField) public class YearDropDownField : ObjectiveC.NSObject {
+        public static var maxNumberOfYears: Swift.Int
+        public static var placeHolderText: Swift.String
+        public static var defaultText: Swift.String
+        @objc override dynamic public init()
+        @objc deinit
+      }
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_CVVField) public class CVVField : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var placeHolderText: Swift.String
+      public static var defaultText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_FirstNameField) public class FirstNameField : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var placeHolderText: Swift.String
+      public static var defaultText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_LastNameField) public class LastNameField : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var placeHolderText: Swift.String
+      public static var defaultText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_EmailField) public class EmailField : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var placeHolderText: Swift.String
+      public static var defaultText: Swift.String
+      public static var leftImage: UIKit.UIImage?
+      public static var rightImage: UIKit.UIImage?
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    @_inheritsConvenienceInitializers @objc(ConfigCE_AddCardButton) public class AddCardButton : ObjectiveC.NSObject {
+      public static var titleText: Swift.String
+      public static var titleTextColor: UIKit.UIColor
+      public static var disableColor: UIKit.UIColor
+      public static var enableColor: UIKit.UIColor
+      @objc override dynamic public init()
+      @objc deinit
+    }
+    public class func getChannels() -> [VisaNetSDK.DataChannelType]
+    @objc override dynamic public init()
+    @objc deinit
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class PaymentViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func didReceiveMemoryWarning()
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension VisaNetSDK.PaymentViewController : UIKit.UIScrollViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
+}
+extension VisaNetSDK.PaymentViewController : CardinalMobile.CardinalValidationDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func cardinalSession(cardinalSession session: CardinalMobile.CardinalSession!, stepUpValidated validateResponse: CardinalMobile.CardinalResponse!, serverJWT: Swift.String!)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class CardNumberFieldView : VisaNetSDK.BulletFieldView {
+  @_Concurrency.MainActor(unsafe) @objc public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @IBDesignable @_Concurrency.MainActor(unsafe) public class BulletFieldView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var textField: VisaNetSDK.VNTextField!
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var leftImage: UIKit.UIImage? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var placeholder: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var rightImage: UIKit.UIImage? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) public var type: Swift.Int {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func prepareForInterfaceBuilder()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
+  @objc deinit
+}
+extension VisaNetSDK.BulletFieldView : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func canPerformAction(_ action: ObjectiveC.Selector, withSender sender: Any?) -> Swift.Bool
+}
+@objc @_inheritsConvenienceInitializers public class YapeFont : UIKit.UIFont {
+  public class func buildFont(name: Swift.String, size: CoreFoundation.CGFloat = 1.0) -> UIKit.UIFont?
+  @objc override dynamic public init()
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class CVVFieldView : VisaNetSDK.BulletFieldView {
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+}
+public enum RequestResult<Value> {
+  case success(Value)
+  case failure(Value)
+  public var isSuccess: Swift.Bool {
+    get
+  }
+  public var isFailure: Swift.Bool {
+    get
+  }
+  public var value: Value? {
+    get
+  }
+  public var error: Value? {
+    get
+  }
+}
+public enum RequestMethod : Swift.String {
+  case get
+  case post
+  case put
+  case delete
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ResponseType : Swift.String {
+  case string
+  case dictionary
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum WhitelistCategories : Swift.String {
+  case blackList
+  case risky
+  case white
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public protocol CyberSourceDelegate {
+  @objc optional func authFinished(sessionId: Swift.String)
+}
+@_hasMissingDesignatedInitializers open class CyberSource : VisaNetSDK.CyberSourceDelegate {
+  open var delegate: VisaNetSDK.CyberSourceDelegate?
+  open func auth(publicKey: Swift.String, isSandbox: Swift.Bool = false)
+  @objc deinit
+}
+public enum RecurrenceTypeConst : Swift.String {
+  case fixed
+  case fixedInitial
+  case variable
+  case variableInitial
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers public class RecurrenceType : ObjectiveC.NSObject {
+  public var name: Swift.String
+  public var type: VisaNetSDK.RecurrenceTypeConst
+  public class func getRecurrenceTypes() -> [VisaNetSDK.RecurrenceType]
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class Frequency : ObjectiveC.NSObject {
+  public var frequencyID: Swift.Int
+  public var key: Swift.String
+  public var name: Swift.String
+  public class func getLocaleStrings() -> [VisaNetSDK.Frequency]
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class VNTextField : UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func canPerformAction(_ action: ObjectiveC.Selector, withSender sender: Any?) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc public enum ExpirationDateFieldType : Swift.Int {
+  case dropDown = 1
+  case textField = 2
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum HeaderLogoType : Swift.Int {
+  case image = 1
+  case text = 2
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum formErrors : Swift.Int {
+  case missingCC = 300
+  case invalidCC = 301
+  case missingExpDate = 302
+  case invalidExpDate = 303
+  case missingExpMonth = 304
+  case invalidExpMonth = 305
+  case missingExpYear = 306
+  case invalidExpYear = 307
+  case missingFN = 308
+  case missingLN = 309
+  case missingEmail = 310
+  case missingCVV = 311
+  case missingAlias = 312
+  case missingMaxAmount = 313
+  case installmentNotFount = 314
+  case unknownError = 315
+  case tokenizedCardNotSelected = 316
+  case missingPhoneNumber = 317
+  case missingCountry = 318
+  case missingCity = 319
+  case missingFirstPayment = 320
+  case missingFixedAmount = 321
+  case missingRememberCard = 322
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol VisaNetDelegate {
+  @objc func registrationDidEnd(serverError: Any?, responseData: Any?)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class VisaNet : ObjectiveC.NSObject {
+  public static let shared: VisaNetSDK.VisaNet
+  weak public var delegate: VisaNetSDK.VisaNetDelegate?
+  public static var isPersonalDataAllowed: Swift.Bool?
+  public static var isRecurrenceAllowed: Swift.Bool?
+  public static var isInstallmentsAllowed: Swift.Bool?
+  public static var showAmountInPayButton: Swift.Bool
+  public static var recurrenceFirstPayment: Swift.Bool
+  public static var hidePersonalDataFields: Swift.Bool
+  public static var hidePhoneNumberField: Swift.Bool
+  public static var hideCountryField: Swift.Bool
+  public static var hideCityField: Swift.Bool
+  public static var hideFirstPaymentField: Swift.Bool
+  public static var hideFixedAmountFields: Swift.Bool
+  public static var hideVariableAmountField: Swift.Bool
+  public static var hideMaxAmountField: Swift.Bool
+  public static var hideRememberCardField: Swift.Bool
+  public func presentVisaPaymentForm(viewController: UIKit.UIViewController) -> VisaNetSDK.PaymentViewController?
+  @objc deinit
+}
+extension UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public func presentVisaPaymentForm(amount: Swift.Double) -> VisaNetSDK.PaymentViewController?
+}
+extension UIKit.UIView.ViewSide : Swift.Equatable {}
+extension UIKit.UIView.ViewSide : Swift.Hashable {}
+extension VisaNetSDK.ServerEnvironment : Swift.Equatable {}
+extension VisaNetSDK.ServerEnvironment : Swift.Hashable {}
+extension VisaNetSDK.ServerEnvironment : Swift.RawRepresentable {}
+extension VisaNetSDK.CEHeaderType : Swift.Equatable {}
+extension VisaNetSDK.CEHeaderType : Swift.Hashable {}
+extension VisaNetSDK.CEHeaderType : Swift.RawRepresentable {}
+extension VisaNetSDK.ExpirationDateType : Swift.Equatable {}
+extension VisaNetSDK.ExpirationDateType : Swift.Hashable {}
+extension VisaNetSDK.ExpirationDateType : Swift.RawRepresentable {}
+extension VisaNetSDK.DataChannelType : Swift.Equatable {}
+extension VisaNetSDK.DataChannelType : Swift.Hashable {}
+extension VisaNetSDK.DataChannelType : Swift.RawRepresentable {}
+extension VisaNetSDK.DocumentType : Swift.Equatable {}
+extension VisaNetSDK.DocumentType : Swift.Hashable {}
+extension VisaNetSDK.DocumentType : Swift.RawRepresentable {}
+extension VisaNetSDK.RequestMethod : Swift.Equatable {}
+extension VisaNetSDK.RequestMethod : Swift.Hashable {}
+extension VisaNetSDK.RequestMethod : Swift.RawRepresentable {}
+extension VisaNetSDK.ResponseType : Swift.Equatable {}
+extension VisaNetSDK.ResponseType : Swift.Hashable {}
+extension VisaNetSDK.ResponseType : Swift.RawRepresentable {}
+extension VisaNetSDK.WhitelistCategories : Swift.Equatable {}
+extension VisaNetSDK.WhitelistCategories : Swift.Hashable {}
+extension VisaNetSDK.WhitelistCategories : Swift.RawRepresentable {}
+extension VisaNetSDK.RecurrenceTypeConst : Swift.Equatable {}
+extension VisaNetSDK.RecurrenceTypeConst : Swift.Hashable {}
+extension VisaNetSDK.RecurrenceTypeConst : Swift.RawRepresentable {}
+extension VisaNetSDK.ExpirationDateFieldType : Swift.Equatable {}
+extension VisaNetSDK.ExpirationDateFieldType : Swift.Hashable {}
+extension VisaNetSDK.ExpirationDateFieldType : Swift.RawRepresentable {}
+extension VisaNetSDK.HeaderLogoType : Swift.Equatable {}
+extension VisaNetSDK.HeaderLogoType : Swift.Hashable {}
+extension VisaNetSDK.HeaderLogoType : Swift.RawRepresentable {}
+extension VisaNetSDK.formErrors : Swift.Equatable {}
+extension VisaNetSDK.formErrors : Swift.Hashable {}
+extension VisaNetSDK.formErrors : Swift.RawRepresentable {}

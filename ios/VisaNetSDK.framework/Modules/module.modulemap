@@ -1,0 +1,11 @@
+framework module VisaNetSDK {
+  umbrella header "VisaNetSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module VisaNetSDK.Swift {
+  header "VisaNetSDK-Swift.h"
+  requires objc
+}

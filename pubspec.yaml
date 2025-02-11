@@ -1,0 +1,32 @@
+name: niubiz_payment
+description: "A Flutter package to tokenize payment methods with Niubiz. Integrates the native SDK to facilitate its use and improve the payment experience."
+version: 1.0.0
+maintainer: Carlos España (@creegplay)
+homepage: https://github.com/carlinsk8/niubiz_payment
+repository: https://github.com/carlinsk8/niubiz_payment
+issue_tracker:
+documentation: https://github.com/carlinsk8/niubiz_payment/blob/master/README.md
+
+
+environment:
+  sdk: ^3.5.2
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.niubiz.payment.niubiz_payment
+        pluginClass: NiubizPaymentPlugin
+      ios:
+        pluginClass: NiubizPaymentPlugin

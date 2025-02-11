@@ -1,0 +1,89 @@
+group = "com.niubiz.payment.niubiz_payment"
+version = "1.0-SNAPSHOT"
+
+buildscript {
+    ext.kotlin_version = "1.8.22"
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    }
+}
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir {
+            dirs project(':niubiz_payment').file('libs')
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace = "com.niubiz.payment.niubiz_payment"
+    }
+
+    compileSdk = 34
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    defaultConfig {
+        minSdk = 21
+    }
+
+    dependencies {
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.mockito:mockito-core:5.0.0")
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+}
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1' // Asegúrate de tener Gson
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0' // 
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Asegúrate de tener Retrofit
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'  // Asegúrate de tener OkHttp
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'  // Asegúrate de tener OkHttp
+    implementation(name: "cardinalmobilesdk-2.2.7-5", ext: 'aar')
+    implementation(name: "TMXProfiling-7.3-52", ext: 'aar')
+    implementation(name: "TMXProfilingConnections-7.3-52", ext: 'aar')
+    implementation(name: "visanet-lib-tokenizacion-3.2.14", ext: 'aar')
+}

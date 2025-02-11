@@ -1,0 +1,60 @@
+
+/* Class = "UITextField"; placeholder = "Establecer monto máximo"; ObjectID = "4n2-Q8-tsx"; */
+"4n2-Q8-tsx.placeholder" = "Establecer monto máximo";
+
+/* Class = "UITextField"; placeholder = "Recordar Tarjeta"; ObjectID = "BUl-Vs-OTb"; */
+"BUl-Vs-OTb.placeholder" = "Recordar Tarjeta";
+
+/* Class = "UIBarButtonItem"; title = "Cancelar"; ObjectID = "DmQ-gj-1t7"; */
+"DmQ-gj-1t7.title" = "Cancelar";
+
+/* Class = "UILabel"; text = "Merchant Title"; ObjectID = "IMb-ZH-DOF"; */
+"IMb-ZH-DOF.text" = "Merchant Title";
+
+/* Class = "UIButton"; normalTitle = "Entendido"; ObjectID = "JeL-7U-OG5"; */
+"JeL-7U-OG5.normalTitle" = "Entendido";
+
+/* Class = "UILabel"; text = "PEN 802.50"; ObjectID = "KDF-ju-kiC"; */
+"KDF-ju-kiC.text" = "PEN 802.50";
+
+/* Class = "UILabel"; text = "Sale Rate"; ObjectID = "KIH-F1-mfo"; */
+"KIH-F1-mfo.text" = "Sale Rate";
+
+/* Class = "UILabel"; text = "CVV"; ObjectID = "KmK-fN-BOT"; */
+"KmK-fN-BOT.text" = "CVV";
+
+/* Class = "UIButton"; normalTitle = "Nueva Tarjeta"; ObjectID = "Qrj-jg-Thg"; */
+"Qrj-jg-Thg.normalTitle" = "Nueva Tarjeta";
+
+/* Class = "UILabel"; text = "El código CVV solo los tres dígitos que salen al reverso de la tarjeta"; ObjectID = "hYU-gA-GLc"; */
+"hYU-gA-GLc.text" = "El código CVV solo los tres dígitos que salen al reverso de la tarjeta";
+
+/* Class = "UILabel"; text = "Sale Rate"; ObjectID = "ifJ-VN-sNW"; */
+"ifJ-VN-sNW.text" = "Sale Rate";
+
+/* Class = "UILabel"; text = "USD 250.00"; ObjectID = "iy5-vj-lIs"; */
+"iy5-vj-lIs.text" = "USD 250.00";
+
+/* Class = "UILabel"; text = "Exchange Rate"; ObjectID = "jtf-ro-ebM"; */
+"jtf-ro-ebM.text" = "Exchange Rate";
+
+/* Class = "UILabel"; text = "Suscribirse"; ObjectID = "nCI-TH-C06"; */
+"nCI-TH-C06.text" = "Suscribirse";
+
+/* Class = "UIButton"; normalTitle = "Pagar S/. 200"; ObjectID = "o9i-DH-BBX"; */
+"o9i-DH-BBX.normalTitle" = "Pagar S/. 200";
+
+/* Class = "UIButton"; normalTitle = "Cancelar"; ObjectID = "pIF-Wd-knI"; */
+"pIF-Wd-knI.normalTitle" = "Cancelar";
+
+/* Class = "UILabel"; text = "Card Alias"; ObjectID = "qMH-Ql-vEO"; */
+"qMH-Ql-vEO.text" = "Card Alias";
+
+/* Class = "UILabel"; text = "Card Number"; ObjectID = "rnG-L7-eXz"; */
+"rnG-L7-eXz.text" = "Card Number";
+
+/* Class = "UINavigationItem"; title = "VisaNet Business"; ObjectID = "xIU-WX-u3E"; */
+"xIU-WX-u3E.title" = "VisaNet Business";
+
+/* Class = "UILabel"; text = "Exchange Rate"; ObjectID = "yaH-aD-HWZ"; */
+"yaH-aD-HWZ.text" = "Exchange Rate";
