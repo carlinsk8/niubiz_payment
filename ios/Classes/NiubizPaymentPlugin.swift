@@ -3,106 +3,81 @@ import UIKit
 import VisaNetSDK
 
 enum NiubizResultStatus {
-    static let success: String = "SUCCESS"
-    static let error: String = "ERROR"
-
-    static let userCanceled: String = "USER_CANCELED"
+    static let success = "SUCCESS"
+    static let error = "ERROR"
+    static let userCanceled = "USER_CANCELED"
 }
 
 public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
 
-  private var channel: FlutterMethodChannel? = nil
-  private var channelResult: FlutterResult! = nil
-  var merchantDefineData = [String: Any]()
+    private var channel: FlutterMethodChannel?
+    private var channelResult: FlutterResult?
+    private var hostViewController: UIViewController!
+    private var merchantDefineData = [String: Any]()
 
-  private var hostViewController: UIViewController!
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        let channel = FlutterMethodChannel(name: "niubiz_payment", binaryMessenger: registrar.messenger())
+        let instance = NiubizPaymentPlugin()
+        instance.hostViewController = UIApplication.shared.delegate!.window!!.rootViewController!
+        registrar.addMethodCallDelegate(instance, channel: channel)
+    }
 
-  public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "niubiz_payment", binaryMessenger: registrar.messenger())
-    let instance = NiubizPaymentPlugin()
-    instance.hostViewController = UIApplication.shared.delegate!.window!!.rootViewController!
-    registrar.addMethodCallDelegate(instance, channel: channel)
-  }
-
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    switch call.method {
-    case "initPayment":
-      do {
+    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        switch call.method {
+        case "initPayment":
             channelResult = result
+            guard let args = call.arguments as? [String: Any] else {
+                resultData(code: NiubizResultStatus.error, message: "Invalid arguments")
+                return
+            }
+            initPayment(args: args)
+        default:
+            result(FlutterMethodNotImplemented)
+        }
+    }
 
-            let args = call.arguments as! [String: Any]
-            print("args: \(args)")
-            // credentials
-            let username = args["userName"] as! String
-            let password = args["password"] as! String
-            let merchantId = args["merchantId"] as! String
+    private func initPayment(args: [String: Any]) {
+        do {
+            let username: String = try getArgument(args, key: "userName")
+            let password: String = try getArgument(args, key: "password")
+            let merchantId: String = try getArgument(args, key: "merchantId")
+            let isProduction: Bool = try getArgument(args, key: "isProduction")
+            let name: String = try getArgument(args, key: "name")
+            let lastName: String = try getArgument(args, key: "lastName")
+            let email: String = try getArgument(args, key: "email")
 
-            // endPoint
-            let isProduction = args["isProduction"] as! Bool
-            
-
-            // holder
-            let name = args["name"] as! String
-            let lastName = args["lastName"] as! String
-            let email = args["email"] as! String
-
-            // let amount = args["amount"] as! Double
             let purchaseNumber = createPurchaseNumber()
-
-            // ui
             let logoTitle = args["titleBrand"] as? String
-            //let logoAssetName = args["logoAssetName"] as? String
-
-            //let daysSinceRegistration = String(args["daysSinceRegistration"] as! Int)
-          let daysSinceRegistration = 0
-            // print
-            print("MDD77: \(daysSinceRegistration)")
+            let daysSinceRegistration = 0
 
             Config.TK.dataChannel = .mobile
             Config.merchantID = merchantId
-            var endPoint = ""
-            print("isProduction: \(isProduction)")
-            if isProduction {
-                Config.TK.type = .prod
-                Config.TK.endPointProdURL = "https://apiprod.vnforapps.com"
-                endPoint = "https://apiprod.vnforapps.com"
-            } else {
-                Config.TK.type = .dev
-                Config.TK.endPointDevURL = "https://apitestenv.vnforapps.com"
-                endPoint = "https://apitestenv.vnforapps.com"
-            }
-
-            //Config.amount = amount
+            Config.TK.type = isProduction ? .prod : .dev
+            Config.TK.endPointProdURL = "https://apiprod.vnforapps.com"
+            Config.TK.endPointDevURL = "https://apitestenv.vnforapps.com"
             Config.TK.purchaseNumber = purchaseNumber
-
             Config.TK.firstName = name
             Config.TK.lastName = lastName
             Config.TK.email = email
             Config.TK.FirstNameField.defaultText = name
             Config.TK.LastNameField.defaultText = lastName
 
-            var merchantDefineData = [String: Any]()
-            merchantDefineData["MDD4"] = email // client email
-            merchantDefineData["MDD21"] = "1" // frequent client (0 or 1)
-            merchantDefineData["MDD32"] = email // code, dni, ruc, client id or email
-            merchantDefineData["MDD75"] = "Registrado" // client registration type (Registrado)
-            merchantDefineData["MDD77"] = daysSinceRegistration // day since client registration (0-365)
+            merchantDefineData = [
+                "MDD4": email,
+                "MDD21": "1",
+                "MDD32": email,
+                "MDD75": "Registrado",
+                "MDD77": daysSinceRegistration
+            ]
             Config.TK.Antifraud.merchantDefineData = merchantDefineData
 
-            //let logoImage = UIImage.flutterImageWithName(name: logoAssetName!)
-            //if logoImage != nil {
-                //Config.TK.Header.type = .logo
-               // Config.TK.Header.logoImage = logoImage
-            //} else {
-                // This doesn't work
-                Config.TK.Header.type = .text
-                Config.TK.Header.titleText = logoTitle
-            //}
+            Config.TK.Header.type = .text
+            Config.TK.Header.titleText = logoTitle
 
+            let endPoint = isProduction ? "https://apiprod.vnforapps.com" : "https://apitestenv.vnforapps.com"
             getSecurityToken(endPoint: endPoint, username: username, password: password) { token in
                 DispatchQueue.main.async {
                     Config.securityToken = token
-
                     VisaNet.shared.delegate = self
                     _ = VisaNet.shared.presentVisaPaymentForm(viewController: self.hostViewController)
                 }
@@ -110,17 +85,18 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
                 self.resultData(code: NiubizResultStatus.error, message: error)
             }
         } catch {
-            print("error: \(error.localizedDescription)")
-            resultData(code: NiubizResultStatus.error)
+            resultData(code: NiubizResultStatus.error, message: error.localizedDescription)
         }
-    default:
-      result(FlutterMethodNotImplemented)
     }
-  }
-  public func registrationDidEnd(serverError: Any?, responseData: Any?) {
-        print("serverError: \(String(describing: serverError))")
-        print("responseData: \(String(describing: responseData))")
 
+    private func getArgument<T>(_ args: [String: Any], key: String) throws -> T {
+        guard let value = args[key] as? T else {
+            throw NSError(domain: "Invalid argument", code: 0, userInfo: [NSLocalizedDescriptionKey: "Missing or invalid argument: \(key)"])
+        }
+        return value
+    }
+
+    public func registrationDidEnd(serverError: Any?, responseData: Any?) {
         guard serverError == nil else {
             handleError(serverError: serverError)
             return
@@ -133,10 +109,8 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
                 let errorMessage = jsonResult["errorMessage"] as? String ?? ""
 
                 if errorCode == 0 && errorMessage == "OK" {
-                    print("response: \(response)")
                     resultData(message: "OK", data: response, raw: response)
                 } else {
-                    print("error: \(errorMessage)")
                     resultData(code: NiubizResultStatus.error, message: errorMessage, data: response, raw: response)
                 }
             } else if let error = responseData as? NSError {
@@ -145,8 +119,7 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
                 handleUnknownResponse(responseData)
             }
         } catch {
-            print("error: \(error.localizedDescription)")
-            resultData(code: NiubizResultStatus.error)
+            resultData(code: NiubizResultStatus.error, message: error.localizedDescription)
         }
     }
 
@@ -154,8 +127,7 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
         if let error = serverError as? NSError {
             resultData(code: NiubizResultStatus.error, message: error.localizedDescription)
         } else {
-            let errorMessage = String(describing: serverError)
-            resultData(code: NiubizResultStatus.error, message: errorMessage)
+            resultData(code: NiubizResultStatus.error, message: String(describing: serverError))
         }
     }
 
@@ -167,7 +139,6 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
     private func handleUnknownResponse(_ responseData: Any?) {
         let responseString = String(describing: responseData)
         if responseString.starts(with: "Optional(Canceled)") {
-            print("user canceled")
             resultData(code: NiubizResultStatus.userCanceled)
         } else {
             resultData(code: NiubizResultStatus.error, message: responseString)
@@ -175,51 +146,46 @@ public class NiubizPaymentPlugin: NSObject, FlutterPlugin, VisaNetDelegate {
     }
 
     private func resultData(code: String = NiubizResultStatus.success, message: String = "", data: String = "", raw: String = "") {
-        let result = [
+        let result: [String: Any] = [
             "code": code,
             "message": message,
             "data": data,
             "raw": raw
-        ] as [String: Any]
+        ]
 
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: result, options: [])
             let jsonString = String(data: jsonData, encoding: .utf8)
-            channelResult(jsonString)
+            channelResult?(jsonString)
         } catch {
-            print("error: \(error.localizedDescription)")
-            channelResult(nil)
+            channelResult?(nil)
         }
     }
 
     private func createPurchaseNumber() -> String {
         let timestamp = NSDate().timeIntervalSince1970 * 1000
-        let timestampString = String(timestamp)
-        return String(timestampString.prefix(12))
+        return String(Int(timestamp))
     }
 
     private func getSecurityToken(endPoint: String, username: String, password: String, success: @escaping (String) -> Void, failure: @escaping (String) -> Void) {
-        let url = URL(string: "\(endPoint)/api.security/v1/security")!
-        print("url: \(url)")
+        guard let url = URL(string: "\(endPoint)/api.security/v1/security") else {
+            failure("Invalid URL")
+            return
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let basicAuthString = ("\(username):\(password)".data(using: .utf8)!).base64EncodedString()
-        print("basicAuthString: \(basicAuthString)")
-        request.setValue(basicAuthString, forHTTPHeaderField: "Authorization")
-
-        print("--> POST \(url.absoluteString)")
+        request.setValue("Basic \(basicAuthString)", forHTTPHeaderField: "Authorization")
 
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, _, error in
             if let error = error {
-                print("get token error: \(error)")
                 failure(error.localizedDescription)
             } else if let data = data {
                 let token = String(decoding: data, as: UTF8.self)
-                print("get token OK: \(token)")
                 success(token)
             } else {
-                print("get token error: unknown")
                 failure("Unknown error")
             }
         }
